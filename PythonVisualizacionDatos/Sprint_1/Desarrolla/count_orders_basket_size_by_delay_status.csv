@@ -1,0 +1,30 @@
+total_products,delay_status,order_count
+1.0,Corto,343457
+1.0,Largo,709476
+1.0,No hubo retraso,12357455
+2.0,Corto,27474
+2.0,Largo,45464
+2.0,No hubo retraso,1113919
+3.0,Corto,5037
+3.0,Largo,7346
+3.0,No hubo retraso,202247
+4.0,Corto,1563
+4.0,Largo,3034
+4.0,No hubo retraso,77409
+5.0,Corto,604
+5.0,Largo,665
+5.0,No hubo retraso,26477
+6.0,Corto,445
+6.0,Largo,1984
+6.0,No hubo retraso,32355
+7.0,No hubo retraso,3294
+8.0,No hubo retraso,1459
+9.0,No hubo retraso,545
+10.0,No hubo retraso,2008
+11.0,No hubo retraso,248
+12.0,No hubo retraso,901
+13.0,No hubo retraso,99
+14.0,No hubo retraso,724
+15.0,No hubo retraso,351
+20.0,No hubo retraso,45
+21.0,Largo,90
