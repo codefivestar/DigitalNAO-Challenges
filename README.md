@@ -9,8 +9,7 @@ Carátula
 - NAO ID	3049
 - Fecha	12-ago-24
 - Trayectoria	Data Analyst Core
-- Reto	"Bibliotecas de Python y herramientas de 
-- visualización de datos"
+- Reto	"Bibliotecas de Python y herramientas de visualización de datos"
 
 
 Repositorio
