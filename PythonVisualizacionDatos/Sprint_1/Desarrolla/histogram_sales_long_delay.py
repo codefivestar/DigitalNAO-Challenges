@@ -1,9 +1,19 @@
-import pandas as pd
+# Importar librerias
+import os
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
+import warnings
+warnings.filterwarnings('ignore')
+
 # Cargar los datos procesados
-data = pd.read_csv('oilst_processed.csv')
+DATA_PATH="C:/Users/pugah/Documents/CFS/GitHub/DigitalNAO-Challenges/PythonVisualizacionDatos/data/"
+FILE_CONSOLIDATED_DATA = 'oilst_processed.csv'
+RESULT_PATH="C:/Users/pugah/Documents/CFS/GitHub/DigitalNAO-Challenges/PythonVisualizacionDatos/Sprint_1/Desarrolla/resultado/"
+FILE_RESULT='histogram_sales_long_delay.png'
+
+data = pd.read_csv(os.path.join(DATA_PATH, FILE_CONSOLIDATED_DATA))
 
 # Filtrar las órdenes con delay_status "Largo"
 filtered_data = data[data['delay_status'] == 'Largo']
@@ -36,6 +46,6 @@ plt.ylabel('Frequency')
 plt.legend()
 
 # Guardar el histograma como archivo PNG
-plt.savefig('histogram_sales_long_delay.png')
+plt.savefig(os.path.join(RESULT_PATH, FILE_RESULT))
 
-print("El archivo histogram_sales_long_delay.png ha sido generado con éxito.")
+print("El archivo " + FILE_RESULT + " ha sido generado con éxito.")

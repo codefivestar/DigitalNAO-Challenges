@@ -8,7 +8,14 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # Cargar los datos procesados
-data = pd.read_csv('oilst_processed.csv')
+DATA_PATH="C:/Users/pugah/Documents/CFS/GitHub/DigitalNAO-Challenges/PythonVisualizacionDatos/data/"
+FILE_CONSOLIDATED_DATA = 'oilst_processed.csv'
+RESULT_PATH="C:/Users/pugah/Documents/CFS/GitHub/DigitalNAO-Challenges/PythonVisualizacionDatos/Sprint_1/Desarrolla/resultado/"
+FILE_RESULT='correlation_matrix_10_days_delay.png'
+
+data = pd.read_csv(os.path.join(DATA_PATH, FILE_CONSOLIDATED_DATA))
+
+#data = pd.read_csv('oilst_processed.csv')
 
 # Filtrar las órdenes con un retraso mayor a 10 días y con status completo
 filtered_data = data[(data['delta_days'] > 10) & (data['delay_status'] == 'Largo')]
@@ -26,6 +33,6 @@ sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', vmin=-1, vmax=1, ce
 
 # Añadir título y etiquetas
 plt.title('Correlation Matrix for Orders with Delay > 10 Days')
-plt.savefig('correlation_matrix_10_days_delay.png')
+plt.savefig(os.path.join(RESULT_PATH, FILE_RESULT))
 
-print("El archivo correlation_matrix_10_days_delay.png ha sido generado con éxito.")
+print("El archivo " + FILE_RESULT + " ha sido generado con éxito.")

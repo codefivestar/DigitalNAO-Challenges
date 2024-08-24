@@ -1,16 +1,29 @@
-# Se importa la libreria pandas 
+# Importar librerias
+import os
+import numpy as np
 import pandas as pd
 
-# Cargar los datos desde las diferentes fuentes en dataframes 
-orders = pd.read_csv("./data/olist_orders_dataset.csv")
-customers = pd.read_csv("./data/olist_customers_dataset.csv") # se exporta el archivo original excel a csv
-geolocation = pd.read_csv("./data/olist_geolocation_dataset.csv")
-states = pd.read_csv("./data/brasil_regions.csv")
+import warnings
+warnings.filterwarnings('ignore')
 
-# Campos calculados:
+# Lectura de datos
+DATA_PATH="C:/Users/pugah/Documents/CFS/GitHub/DigitalNAO-Challenges/PythonVisualizacionDatos/data/"
+FILE_CUSTOMERS = 'olist_customers_dataset.xlsx'
+FILE_GEOLOCATIONS = 'olist_geolocation_dataset.csv'
+FILE_ITEMS = 'olist_order_items_dataset.csv'
+FILE_PAYMENTS = 'olist_order_payments_dataset.csv'
+FILE_ORDERS = 'olist_orders_dataset.csv'
+FILE_STATES_ABBREVIATIONS = 'states_abbreviations.json'
+FILE_CONSOLIDATED_DATA = 'oilst_processed.csv'
 
-# Agregar el total de productos 
-order_items = pd.read_csv("./data/olist_order_items_dataset.csv")
+# Leemos con pandas
+customers = pd.read_excel(os.path.join(DATA_PATH, FILE_CUSTOMERS))
+geolocations = pd.read_csv(os.path.join(DATA_PATH, FILE_GEOLOCATIONS))
+order_items = pd.read_csv(os.path.join(DATA_PATH, FILE_ITEMS))
+order_payments = pd.read_csv(os.path.join(DATA_PATH, FILE_PAYMENTS))
+orders = pd.read_csv(os.path.join(DATA_PATH, FILE_ORDERS))
+states_abbreviations = pd.read_json(os.path.join(DATA_PATH, FILE_STATES_ABBREVIATIONS))
+
 total_products = order_items.groupby('order_id').size().reset_index(name='total_products')
 
 # Agregar el total de ventas 
@@ -48,22 +61,21 @@ orders['delay_status'] = orders['delta_days'].apply(categorize_delay)
 
 # Unir la tabla orders con customers y geolocation
 orders = orders.merge(customers, on='customer_id', how='left')
-orders = orders.merge(geolocation, left_on='customer_zip_code_prefix', right_on='geolocation_zip_code_prefix', how='left')
+orders = orders.merge(geolocations, left_on='customer_zip_code_prefix', right_on='geolocation_zip_code_prefix', how='left')
 
 # Unir con la tabla de estados
-orders = orders.merge(states, left_on='customer_state', right_on='abbreviation', how='left')
+orders = orders.merge(states_abbreviations, left_on='customer_state', right_on='abbreviation', how='left')
 
 # Seleccionar las columnas finales
-final_columns = [ 'order_id', 'customer_unique_id', 'total_products', 'total_sales', 'year', 'month'
-                , 'quarter', 'year_month', 'delta_days', 'delay_status', 'customer_city', 'customer_state'
-                , 'geolocation_lat', 'geolocation_lng', 'geolocation_city', 'geolocation_state', 'state_name'
-                , 'distance_distribution_center'
-                ]
+final_columns = [ 'order_id' , 'customer_id' , 'order_status' , 'order_purchase_timestamp' , 'order_approved_at' , 'order_delivered_carrier_date' , 'order_delivered_customer_date'
+                , 'order_estimated_delivery_date' , 'distance_distribution_center' , 'year' , 'month' , 'quarter' , 'year_month' , 'delta_days' , 'delay_status' , 'total_products'
+                , 'total_sales' , 'customer_unique_id' , 'customer_zip_code_prefix' , 'customer_city' , 'customer_state' , 'geolocation_zip_code_prefix' , 'geolocation_lat' , 'geolocation_lng'
+                , 'geolocation_city' , 'geolocation_state' , 'abbreviation' , 'state_name' ]
 
 # Crear el dataframe final
 final_df = orders[final_columns]
 
 # Guardar el dataframe en un archivo CSV
-final_df.to_csv('oilst_processed.csv', index=False)
+final_df.to_csv(os.path.join(DATA_PATH, FILE_CONSOLIDATED_DATA))
 
 print("El archivo oilst_processed.csv ha sido generado con éxito.")
